@@ -11,10 +11,24 @@
       width: 100%;
       height: 100%;
     }
+    #sigma-parent {
+      width: 500px;
+      height: 500px;
+      position: relative;
+    }
+    #sigma-example {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
   </style>
 </head>
 <body>
-  <div id="container"></div>
+  <div id="sigma-parent">
+    <div id="sigma-example">
+    </div>
+  </div>
+  <div id="container">
   <!-- START SIGMA IMPORTS -->
   <script src="./sigma.js/src/sigma.core.js"></script>
   <script src="./sigma.js/src/conrad.js"></script>
@@ -159,7 +173,7 @@ for (i = 0; i < E; i++) {
 }
 s = new sigma({
   graph: g,
-  container: 'graph-container',
+  container: 'container',
   settings: {
     drawEdges: false
   }
