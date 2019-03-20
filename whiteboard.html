@@ -33,8 +33,8 @@
 
     // Then, let's add some data to display:
     s.graph.read({
-      nodes: [...Array(65536).keys()].map(i => {id: 'n' + i}),
-      //edges: [...Array(65536).keys()].map(i => {id: 'e' + i, source: 'n' + i, target: 'n' + rng(i)})
+      nodes: [...Array(65536).keys()].map(i => ({id: 'n' + i})),
+      edges: [...Array(65536).keys()].map(i => ({id: 'e' + i, source: 'n' + i, target: 'n' + rng(i)}))
     });
 
     // Finally, let's ask our sigma instance to refresh:
