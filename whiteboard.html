@@ -36,6 +36,11 @@
       nodes: [...Array(65536).keys()].map(i => ({id: 'n' + i})),
       edges: [...Array(65536).keys()].map(i => ({id: 'e' + i, source: 'n' + i, target: 'n' + rng(i)}))
     });
+    
+    console.log(
+      s.graph.nodes().length,
+      s.graph.edges().length
+    );
 
     // Finally, let's ask our sigma instance to refresh:
     s.refresh();
