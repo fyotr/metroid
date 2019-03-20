@@ -34,7 +34,7 @@
 
     // Then, let's add some data to display:
     s.graph.read({
-      nodes: [...Array(65536).keys()].map(i => ({id: 'n' + i})),
+      nodes: [...Array(65536).keys()].map(i => ({id: 'n' + i, label: i, color: '#000000', size: Math.random()})),
       edges: [...Array(65536).keys()].map(i => ({id: 'e' + i, source: 'n' + i, target: 'n' + rng(i)}))
     });
     
