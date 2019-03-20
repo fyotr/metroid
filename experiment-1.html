@@ -71,27 +71,6 @@
       ]
     });
 
-//     // Then, let's add some data to display:
-//     s.graph.read({
-//       nodes: [...Array(65536).keys()].map(i => ({
-//         id: 'n' + i,
-//         label: i,
-//         x: 200 * Math.cos(2 * i * Math.PI / 65536),
-//         y: 200 * Math.sin(2 * i * Math.PI / 65536),
-//         color: '#000000',
-//         size: Math.random()
-//       })),
-//       edges: [...Array(65536).keys()].map(i => ({
-//         id: 'e' + i,
-//         source: 'n' + i,
-//         target: 'n' + rng(i)}))
-//     });
-    
-    console.log(
-      s.graph.nodes().length,
-      s.graph.edges().length
-    );
-
     // Finally, let's ask our sigma instance to refresh:
     s.refresh();
     
