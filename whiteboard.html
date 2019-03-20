@@ -56,6 +56,13 @@
     // Let's first initialize sigma:
     var s = new sigma({
       graph: g,
+      settings: {
+        //nodesPowRatio: ratio,
+        //edgesPowRatio: ratio,
+        maxNodeSize: 3,
+        maxEdgeSize: 1,
+        autoRescale: false,
+      },
       renderers: [
         {
           container: 'container',
