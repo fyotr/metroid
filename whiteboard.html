@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic sigma.js example</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+    #container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="./sigma.require.js"></script>
+  <script>
+    function rng(i) {
+      return (5 * i + 273) % 65536;
+    }
+    
+    // Let's first initialize sigma:
+    var s = new sigma({
+      renderers: [
+        {
+          container: document.getElementById('container'),
+          type: 'canvas' // sigma.renderers.canvas works as well
+        }
+      ]
+    });
+
+    // Then, let's add some data to display:
+    s.graph.read({
+      nodes: [...Array(65536).keys()].map(i => {id: 'n' + i}),
+      edges: [...Array(65536).keys()].map(i => {id: 'e' + i, source: 'n' + i, target: 'n' + rng(i)})
+    });
+
+    // Finally, let's ask our sigma instance to refresh:
+    s.refresh();
+  </script>
+</body>
+</html>
