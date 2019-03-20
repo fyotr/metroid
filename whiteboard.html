@@ -37,10 +37,8 @@
       nodes: [...Array(65536).keys()].map(i => ({
         id: 'n' + i,
         label: i,
-        x: 0,
-        y: 0,
-        //x: 100 * Math.cos(2 * i * Math.PI / 250),
-        //y: 100 * Math.sin(2 * i * Math.PI / 250),
+        x: 200 * Math.cos(2 * i * Math.PI / 65536),
+        y: 200 * Math.sin(2 * i * Math.PI / 65536),
         color: '#000000',
         size: Math.random()
       })),
