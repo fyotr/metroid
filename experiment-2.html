@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Experiment 2 - SM PRNG - Adjacency Order Ring</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+    #container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+  <script src="./sigma.js.build/sigma.require.js"></script>
+  <script src="./sigma.js.build/plugins/sigma.layout.forceAtlas2.min.js"></script>
+  <script>
+  
+    /**
+     * C port of SM PRNG, for reference
+     *
+    
+      #define LOW(exp)  ((exp) & 0x00FF)
+      #define HIGH(exp) (((exp) & 0xFF00) >> 8)
+      uint16_t prng(uint16_t v) {
+        uint16_t low  = LOW(v);
+        uint16_t high = HIGH(v);
+        uint16_t mul_low  = low  * 5;
+        uint16_t mul_high = high * 5;
+        uint16_t v1 = LOW(mul_high) + HIGH(mul_low) + 1;
+        uint8_t carry = HIGH(v1) ? 1 : 0;
+        uint16_t v2 = (LOW(v1) << 8) + LOW(mul_low);
+        return (v2 + 0x11 + carry);
+      }
+      
+    **/
+    
+    /**
+     * Mathematica port of SM PRNG, for reference
+     *
+    
+      Hex[exp_] := FromDigits[exp, 16];
+      LByte[exp_] := BitAnd[exp, Hex@"00ff"];
+      HByte[exp_] := BitAnd[exp, Hex@"ff00"]~BitShiftRight~8;
+      PRNG[v_] := Module[{L5, H5, v1, v2, carry},
+        L5 = LByte@v*5;
+        H5 = HByte@v*5;
+        v1 = LByte@H5 + HByte@L5 + 1;
+        carry = HByte@v1~BitGet~0;
+        v2 = BitShiftLeft[LByte@v1, 8] + LByte@L5;
+        Mod[v2 + Hex@"0011" + carry, Hex@"ffff" + 1]
+      ];
+      
+    **/
+    
+    function LBYTE(x) { return x & 0b11111111 }
+    function HBYTE(x) { return x & (0b11111111 << 8) }
+    
+    function sm_prng(x) {
+      var L5 = LBYTE(x) * 5;
+      var H5 = HBYTE(x) * 5;
+      var v1 = LBYTE(H5) + HBYTE(L5) + 1;
+      var carry = HBYTE(v1) > 0 ? 1 : 0;
+      var v2 = (LBYTE(v1) << 8) + LOW(L5);
+      return (v2 + 0x11 + carry);
+    }
+    
+    g = {
+      nodes: [],
+      edges: []
+    };
+    
+    visited = Array(65536).fill(0);
+    var i, j, num_visited = 0;
+    for (i = 0; i < 65536; i++) {
+      j = i;
+      while (visited[j] != 1) {
+        g.nodes.push({
+          id: j,
+          label: j,
+          x: 400 * Math.cos(2 * num_visited * Math.PI / 65536),
+          y: 400 * Math.sin(2 * num_visited * Math.PI / 65536),
+          color: '#000000',
+          size: 1
+        });
+        visited[j] = 1;
+        num_visited++;
+        j = sm_prng(j);
+      }
+    }
+    for (i = 0; i < 65536; i++) {
+      g.edges.push({
+        id: i,
+        source: i,
+        target: sm_prng(i)
+      });
+    }
+    
+    // Let's first initialize sigma:
+    var s = new sigma({
+      graph: g,
+      settings: {
+        //nodesPowRatio: ratio,
+        //edgesPowRatio: ratio,
+        maxNodeSize: 3,
+        maxEdgeSize: 1,
+        autoRescale: false,
+      },
+      renderers: [
+        {
+          container: 'container',
+          type: 'canvas' // sigma.renderers.canvas works as well
+        }
+      ]
+    });
+
+    // Finally, let's ask our sigma instance to refresh:
+    s.refresh();
+    
+    s.startForceAtlas2({worker: true, barnesHutOptimize: false});
+  </script>
+</body>
+</html>
