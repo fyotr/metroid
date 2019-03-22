@@ -77,14 +77,14 @@
     
     visited = Array(65536).fill(0);
     var i, j, num_visited = 0;
-    for (i = 0; i < 65536; i+=200) {
+    for (i = 0; i < 65536; i++) {
       j = i;
       while (visited[j] != 1) {
         g.nodes.push({
           id: j,
           label: j,
-          x: 400 * Math.cos(2 * num_visited * Math.PI / 65536),
-          y: 400 * Math.sin(2 * num_visited * Math.PI / 65536),
+          //x: 400 * Math.cos(2 * num_visited * Math.PI / 65536),
+          //y: 400 * Math.sin(2 * num_visited * Math.PI / 65536),
           color: '#000000',
           size: 1
         });
